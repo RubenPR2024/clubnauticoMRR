@@ -22,6 +22,12 @@ import com.app.clubnautico.services.UserServices;
 @RequestMapping("/users")
 public class UserController {
 
+	/*APUNTES:
+	 * Optional<UsuarioDTO>
+Descripción: Optional<UsuarioDTO> es un contenedor que puede contener un objeto UsuarioDTO o estar vacío.
+Propósito: Se usa para devolver resultados de métodos en los que un UsuarioDTO podría no estar presente. Esto evita el retorno de null y proporciona una manera más segura de manejar la ausencia de valor.
+	 * */
+	
     @Autowired
     private UserServices userService; // Inyecta la instancia de UserServices que contiene la lógica de negocio relacionada con los usuarios
     
