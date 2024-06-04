@@ -26,6 +26,9 @@ public class UserController {
 	 * Optional<UsuarioDTO>
 Descripción: Optional<UsuarioDTO> es un contenedor que puede contener un objeto UsuarioDTO o estar vacío.
 Propósito: Se usa para devolver resultados de métodos en los que un UsuarioDTO podría no estar presente. Esto evita el retorno de null y proporciona una manera más segura de manejar la ausencia de valor.
+	 * Optional<UserModel>
+Descripción: Optional<UserModel> es un contenedor que puede contener un objeto UserModel o estar vacío.
+Propósito: Se usa para encapsular el resultado de consultas a la base de datos donde un UserModel podría no existir. Esto proporciona una manera más clara y segura de manejar la ausencia de resultados en lugar de devolver null.
 	 * */
 	
     @Autowired
