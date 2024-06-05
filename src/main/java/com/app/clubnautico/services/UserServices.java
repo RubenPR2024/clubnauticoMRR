@@ -17,8 +17,7 @@ public class UserServices {
 	@Autowired
 	UserRepository userRepository; // Inyección de instancia del repositorio de UserRepository para interactuar con la base de datos
 
-	@Autowired
-	private ModelMapper modelMapper;
+	private final ModelMapper modelMapper = new ModelMapper();
 	
 	public ArrayList<UserModel> getUsers() {
 		// Retorna una lista de todos los usuarios almacenados en la base de datos
