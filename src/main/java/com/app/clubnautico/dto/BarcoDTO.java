@@ -9,6 +9,7 @@ public class BarcoDTO {
     private String nombre;
     private Long nAmarre;
     private double cuota;
+    private Long propietarioId;
     
 	public String getMatricula() {
 		return matricula;
@@ -34,4 +35,11 @@ public class BarcoDTO {
 	public void setCuota(double cuota) {
 		this.cuota = cuota;
 	}
+	public Long getPropietarioId() {
+		return propietarioId;
+	}
+	public void setPropietarioId(Long propietarioId) {
+		this.propietarioId = propietarioId;
+	}
+	
 }

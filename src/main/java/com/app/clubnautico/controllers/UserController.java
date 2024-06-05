@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.clubnautico.dto.UsuarioDTO;
+import com.app.clubnautico.dto.UsuarioDTOconListas;
 import com.app.clubnautico.models.UserModel;
 import com.app.clubnautico.services.UserServices;
 
@@ -46,9 +47,9 @@ Propósito: Se usa para encapsular el resultado de consultas a la base de datos 
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<UsuarioDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTOconListas> getUserById(@PathVariable Long id) {
         // Recibe el ID del usuario como parámetro y lo pasa a la capa de servicios para obtener el usuario correspondiente
-        Optional<UsuarioDTO> userOptional = userService.getUserById(id);
+        Optional<UsuarioDTOconListas> userOptional = userService.getUserById(id);
         if (userOptional.isPresent()) {
             // Si se encuentra el usuario, devuelve un ResponseEntity con el DTO del usuario y el código de estado OK (200)
             return ResponseEntity.ok(userOptional.get());

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.clubnautico.dto.UsuarioDTO;
+import com.app.clubnautico.dto.UsuarioDTOconListas;
 import com.app.clubnautico.models.UserModel;
 import com.app.clubnautico.repositories.UserRepository;
 
@@ -35,12 +36,12 @@ public class UserServices {
 		return usuarioGuardadoDTO;
 	}
 
-	public Optional<UsuarioDTO> getUserById(Long id) {
+	public Optional<UsuarioDTOconListas> getUserById(Long id) {
 		// Busca un usuario por ID en la base de datos
 		Optional<UserModel> userOptional = userRepository.findById(id);
 		if (userOptional.isPresent()) {
 			// Si el usuario existe, convierte la entidad a DTO usando modelMapper
-			UsuarioDTO userDTO = modelMapper.map(userOptional.get(), UsuarioDTO.class);
+			UsuarioDTOconListas userDTO = modelMapper.map(userOptional.get(), UsuarioDTOconListas.class);
 			// Devuelve un Optional que contiene el DTO de usuario
 			return Optional.of(userDTO);
 		} else {
