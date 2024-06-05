@@ -1,5 +1,7 @@
 package com.app.clubnautico.dto;
 
+import java.util.List;
+
 public class BarcoDTO {
 	//Clase utilizada para transferir los datos entre la capa de presentación y la capa de negocio
 	//Menores preocupaciones
@@ -10,6 +12,7 @@ public class BarcoDTO {
     private Long nAmarre;
     private double cuota;
     private Long propietarioId;
+    private List<SalidaDTO> salida;
     
 	public String getMatricula() {
 		return matricula;
@@ -40,6 +43,12 @@ public class BarcoDTO {
 	}
 	public void setPropietarioId(Long propietarioId) {
 		this.propietarioId = propietarioId;
+	}
+	public List<SalidaDTO> getSalida() {
+		return salida;
+	}
+	public void setSalida(List<SalidaDTO> salida) {
+		this.salida = salida;
 	}
 	
 }

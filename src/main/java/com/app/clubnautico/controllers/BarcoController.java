@@ -25,11 +25,8 @@ public class BarcoController {
     }
 
     @PostMapping
-    public ResponseEntity<BarcoDTO> saveBarco(@RequestBody BarcoDTO barcoDTO) { 
-    	//Toma un DTO del cuerpo de la solicitud y lo pasa a la clase BarcoService para guardarlo en la base de datos
-    	//y devuelve el barco guardado con el código 201 (CREATED)
-        BarcoDTO savedBarco = barcoService.saveBarco(barcoDTO);
-        return new ResponseEntity<>(savedBarco, HttpStatus.CREATED);
+    public BarcoDTO saveBarco(@RequestBody BarcoDTO barcoDTO) {
+        return barcoService.saveBarco(barcoDTO);
     }
 
     @GetMapping(path = "/{id}")

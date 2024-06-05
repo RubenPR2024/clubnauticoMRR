@@ -2,11 +2,14 @@ package com.app.clubnautico.services;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.clubnautico.dto.BarcoDTO;
+import com.app.clubnautico.dto.SalidaDTO;
 import com.app.clubnautico.dto.UsuarioDTO;
 import com.app.clubnautico.dto.UsuarioDTOconListas;
 import com.app.clubnautico.models.UserModel;
@@ -37,17 +40,34 @@ public class UserServices {
 	}
 
 	public Optional<UsuarioDTOconListas> getUserById(Long id) {
-		// Busca un usuario por ID en la base de datos
-		Optional<UserModel> userOptional = userRepository.findById(id);
-		if (userOptional.isPresent()) {
-			// Si el usuario existe, convierte la entidad a DTO usando modelMapper
-			UsuarioDTOconListas userDTO = modelMapper.map(userOptional.get(), UsuarioDTOconListas.class);
-			// Devuelve un Optional que contiene el DTO de usuario
-			return Optional.of(userDTO);
-		} else {
-			// Si el usuario no existe, devuelve un Optional vacío
-			return Optional.empty();
-		}
+//		// Busca un usuario por ID en la base de datos
+//		Optional<UserModel> userOptional = userRepository.findById(id);
+//		if (userOptional.isPresent()) {
+//			// Si el usuario existe, convierte la entidad a DTO usando modelMapper
+//			UsuarioDTOconListas userDTO = modelMapper.map(userOptional.get(), UsuarioDTOconListas.class);
+//			// Devuelve un Optional que contiene el DTO de usuario
+//			return Optional.of(userDTO);
+//		} else {
+//			// Si el usuario no existe, devuelve un Optional vacío
+//			return Optional.empty();
+//		}
+		 Optional<UserModel> userOptional = userRepository.findById(id);
+	        if (userOptional.isPresent()) {
+	            UserModel userModel = userOptional.get();
+	            UsuarioDTOconListas userDTO = modelMapper.map(userModel, UsuarioDTOconListas.class);
+
+	            // Mapear las listas de barcos y salidas manualmente si no se hace automáticamente
+	            userDTO.setBarcos(userModel.getBarco().stream()
+	                    .map(barco -> modelMapper.map(barco, BarcoDTO.class))
+	                    .collect(Collectors.toList()));
+	            userDTO.setSalidas(userModel.getSalida().stream()
+	                    .map(salida -> modelMapper.map(salida, SalidaDTO.class))
+	                    .collect(Collectors.toList()));
+
+	            return Optional.of(userDTO);
+	        } else {
+	            return Optional.empty();
+	        }
 	}
 
 	public Optional<UsuarioDTO> UpdateUserById(UsuarioDTO userDTO, Long id) {

@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.clubnautico.dto.BarcoDTO;
 import com.app.clubnautico.models.BarcoModel;
+import com.app.clubnautico.models.SalidaModel;
+import com.app.clubnautico.models.UserModel;
 import com.app.clubnautico.repositories.BarcoRepository;
+import com.app.clubnautico.repositories.UserRepository;
 
 @Service
 public class BarcoService {
@@ -22,6 +26,11 @@ public class BarcoService {
 	
     @Autowired
     private BarcoRepository barcoRepository; //Inyección de instancia del repositorio de BarcoRepository para interactuar con la base de datos.
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public List<BarcoDTO> getAllBarcos() {
     	//Con findAll obtiene la lista de BarcoModel.
@@ -31,12 +40,22 @@ public class BarcoService {
     }
 
     public BarcoDTO saveBarco(BarcoDTO barcoDTO) {
-    	//Convierte el DTO a model para interactuar con la base de datos
+    	/*//Convierte el DTO a model para interactuar con la base de datos
         BarcoModel barco = convertToEntity(barcoDTO);
         //Guarda el modelo en la base de datos
         BarcoModel savedBarco = barcoRepository.save(barco);
         //Se reconvierte a DTO para generar la respuesta del servidor
-        return convertToDTO(savedBarco);
+        return convertToDTO(savedBarco);*/
+    	BarcoModel barco = modelMapper.map(barcoDTO, BarcoModel.class);
+        Optional<UserModel> propietarioOptional = userRepository.findById(barcoDTO.getPropietarioId());
+        if (propietarioOptional.isPresent()) {
+            barco.setUsuario(propietarioOptional.get());
+        } else {
+            throw new RuntimeException("Propietario no encontrado");
+        }        
+        BarcoModel savedBarco = barcoRepository.save(barco);
+        return modelMapper.map(savedBarco, BarcoDTO.class);
+
     }
 
     public Optional<BarcoDTO> getBarcoById(Integer id) {
@@ -47,15 +66,40 @@ public class BarcoService {
     }
 
     public BarcoDTO updateBarco(BarcoDTO barcoDTO, Integer id) {
-    	//Busca el barco por ID, si no lo encuentra, se lanza una excepcion
-        BarcoModel existingBarco = barcoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Barco not found with id " + id));
-        //Copiamos las propiedades del DTO al modelo
-        BeanUtils.copyProperties(barcoDTO, existingBarco);
-        //Guardamos el modelo actualizado en la base de datos
-        BarcoModel updatedBarco = barcoRepository.save(existingBarco);
-        //Convertimos la respuesta a DTO.
-        return convertToDTO(updatedBarco);
+//    	//Busca el barco por ID, si no lo encuentra, se lanza una excepcion
+//        BarcoModel existingBarco = barcoRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Barco not found with id " + id));
+//        //Copiamos las propiedades del DTO al modelo
+//        BeanUtils.copyProperties(barcoDTO, existingBarco);
+//        //Guardamos el modelo actualizado en la base de datos
+//        BarcoModel updatedBarco = barcoRepository.save(existingBarco);
+//        //Convertimos la respuesta a DTO.
+//        return convertToDTO(updatedBarco);
+    	 BarcoModel existingBarco = barcoRepository.findById(id)
+                 .orElseThrow(() -> new RuntimeException("Barco not found with id " + id));
+         
+         Optional<UserModel> propietarioOptional = userRepository.findById(barcoDTO.getPropietarioId());
+         if (propietarioOptional.isPresent()) {
+             existingBarco.setUsuario(propietarioOptional.get());
+         } else {
+             throw new RuntimeException("Propietario no encontrado");
+         }
+
+         // Copiamos las propiedades que no son colecciones
+         existingBarco.setMatricula(barcoDTO.getMatricula());
+         existingBarco.setNombre(barcoDTO.getNombre());
+         existingBarco.setnAmarre(barcoDTO.getnAmarre());
+         existingBarco.setCuota(barcoDTO.getCuota());
+
+         // Actualizamos la colección de salidas
+         existingBarco.getSalida().clear();
+         List<SalidaModel> salidas = barcoDTO.getSalida().stream()
+                 .map(dto -> modelMapper.map(dto, SalidaModel.class))
+                 .collect(Collectors.toList());
+         existingBarco.getSalida().addAll(salidas);
+
+         BarcoModel updatedBarco = barcoRepository.save(existingBarco);
+         return modelMapper.map(updatedBarco, BarcoDTO.class);
     }
 
     public void deleteBarco(Integer id) {
@@ -71,14 +115,5 @@ public class BarcoService {
         BeanUtils.copyProperties(barco, barcoDTO);
         //Devuelve el BarcoDTO resultante
         return barcoDTO;
-    }
-
-    private BarcoModel convertToEntity(BarcoDTO barcoDTO) {
-    	//Creamos una instancia de barco modelo
-        BarcoModel barco = new BarcoModel();
-        //Copia las propiedades del DTO al modelo
-        BeanUtils.copyProperties(barcoDTO, barco);
-        //Devuelve el BarcoModel resultante
-        return barco;
     }
 }
