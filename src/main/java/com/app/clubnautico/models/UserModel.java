@@ -26,9 +26,9 @@ public class UserModel {
 	@Column
 	private String nombre;
 	@Column
-	private String num_socio;
+	private String numsocio;
 	@Column
-	private String num_patron;
+	private String numpatron;
 	@Column
 	private String apellido1;
 	@Column
@@ -74,20 +74,20 @@ public class UserModel {
 			this.nombre = nombre;
 		}
 
-		public String getNum_socio() {
-			return num_socio;
+		public String getNumsocio() {
+			return numsocio;
 		}
 
-		public void setNum_socio(String num_socio) {
-			this.num_socio = num_socio;
+		public void setNum_socio(String numsocio) {
+			this.numsocio = numsocio;
 		}
 
-		public String getNum_patron() {
-			return num_patron;
+		public String getNumpatron() {
+			return numpatron;
 		}
 
-		public void setNum_patron(String num_patron) {
-			this.num_patron = num_patron;
+		public void setNumpatron(String numpatron) {
+			this.numpatron = numpatron;
 		}
 
 		public String getApellido1() {

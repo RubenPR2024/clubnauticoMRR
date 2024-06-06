@@ -4,20 +4,27 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.clubnautico.dto.SalidaDTO;
 import com.app.clubnautico.models.SalidaModel;
+import com.app.clubnautico.models.UserModel;
 import com.app.clubnautico.repositories.SalidaRepository;
+import com.app.clubnautico.repositories.UserRepository;
 
 @Service
 public class SalidaService {
 
+	@Autowired
+    private SalidaRepository salidaRepository; //Inyección de instancia del repositorio de BarcoRepository para interactuar con la base de datos.
+    
     @Autowired
-    private SalidaRepository salidaRepository; // Inyección de instancia del repositorio de SalidaRepository para interactuar con la base de datos
-
+    private UserRepository userRepository;
+    
+    private final ModelMapper modelMapper = new ModelMapper();
     public List<SalidaDTO> getAllSalidas() {
         // Obtiene una lista de todas las salidas almacenadas en la base de datos
         List<SalidaModel> salidas = salidaRepository.findAll();
@@ -26,12 +33,15 @@ public class SalidaService {
     }
 
     public SalidaDTO saveSalida(SalidaDTO salidaDTO) {
-        // Convierte el DTO de salida a un modelo de salida para interactuar con la base de datos
-        SalidaModel salida = convertToEntity(salidaDTO);
-        // Guarda el modelo de salida en la base de datos
-        SalidaModel savedSalida = salidaRepository.save(salida);
-        // Convierte el modelo de salida guardado a DTO para generar la respuesta
-        return convertToDTO(savedSalida);
+    	SalidaModel salida = modelMapper.map(salidaDTO, SalidaModel.class);
+    	Optional<UserModel> propietarioOptional = userRepository.findById(salidaDTO.getPropietarioId());
+    	if(propietarioOptional.isPresent()) {
+    		salida.setUsuario(propietarioOptional.get());
+    	} else {
+    		throw new RuntimeException("Propietario no encontrado");
+    	}
+    	SalidaModel savedSalida = salidaRepository.save(salida);
+    	return modelMapper.map(savedSalida, SalidaDTO.class);
     }
 
     public Optional<SalidaDTO> getSalidaById(Integer id) {
@@ -67,11 +77,4 @@ public class SalidaService {
         return salidaDTO;
     }
 
-    private SalidaModel convertToEntity(SalidaDTO salidaDTO) {
-        // Crea una instancia de SalidaModel y copia las propiedades del DTO de salida
-        SalidaModel salida = new SalidaModel();
-        BeanUtils.copyProperties(salidaDTO, salida);
-        // Retorna el modelo de salida resultante
-        return salida;
-    }
 }

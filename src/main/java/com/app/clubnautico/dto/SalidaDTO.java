@@ -10,7 +10,7 @@ public class SalidaDTO {
 	private String destino;
     private LocalDateTime fechaEntrada;
     private LocalDateTime fechaSalida;
-    private Long usuarioId;
+    private Long propietarioId;
     
 	public String getDestino() {
 		return destino;
@@ -30,12 +30,12 @@ public class SalidaDTO {
 	public void setFechaSalida(LocalDateTime fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
-	public Long getUsuarioId() {
-		return usuarioId;
+	public Long getPropietarioId() {
+		return propietarioId;
 	}
-	public void setUsuarioId(Long usuarioId) {
-		this.usuarioId = usuarioId;
+	public void setPropietarioId(Long propietarioId) {
+		this.propietarioId = propietarioId;
 	}
-	
+
     
 }
