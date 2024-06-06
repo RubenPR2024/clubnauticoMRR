@@ -7,13 +7,14 @@ public class UsuarioDTO {
 	
     private String dni;
     private String nombre;
-    private String numSocio;
-    private String numPatron;
+    private Long numSocio;
+    private Long numPatron;
     private String apellido1;
     private String apellido2;
     private String telefono;
     private String direccion;
     private String email;
+    
 	public String getDni() {
 		return dni;
 	}
@@ -26,16 +27,16 @@ public class UsuarioDTO {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getNumSocio() {
+	public Long getNumSocio() {
 		return numSocio;
 	}
-	public void setNumSocio(String numSocio) {
+	public void setNumSocio(Long numSocio) {
 		this.numSocio = numSocio;
 	}
-	public String getNumPatron() {
+	public Long getNumPatron() {
 		return numPatron;
 	}
-	public void setNumPatron(String numPatron) {
+	public void setNumPatron(Long numPatron) {
 		this.numPatron = numPatron;
 	}
 	public String getApellido1() {

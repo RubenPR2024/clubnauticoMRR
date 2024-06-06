@@ -35,7 +35,7 @@ public class SalidaModel {
 
 
 	@ManyToOne
-	@JoinColumn(name = "propietarioId")
+	@JoinColumn(name = "numPatron")
 	private UserModel usuario;
 
 

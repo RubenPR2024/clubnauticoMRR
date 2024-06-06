@@ -32,13 +32,13 @@ public class SalidaService {
         return salidas.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public SalidaDTO saveSalida(SalidaDTO salidaDTO) {
+    public SalidaDTO saveSalida(SalidaDTO salidaDTO) {//Asociar patron**Pendiente
     	SalidaModel salida = modelMapper.map(salidaDTO, SalidaModel.class);
-    	Optional<UserModel> propietarioOptional = userRepository.findById(salidaDTO.getPropietarioId());
-    	if(propietarioOptional.isPresent()) {
-    		salida.setUsuario(propietarioOptional.get());
+    	Optional<UserModel> numPatron = userRepository.findById(salidaDTO.getNumPatron());
+    	if(numPatron.isPresent()) {
+    		salida.setUsuario(numPatron.get());
     	} else {
-    		throw new RuntimeException("Propietario no encontrado");
+    		throw new RuntimeException("Patrón no encontrado");
     	}
     	SalidaModel savedSalida = salidaRepository.save(salida);
     	return modelMapper.map(savedSalida, SalidaDTO.class);

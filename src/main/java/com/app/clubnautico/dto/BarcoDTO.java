@@ -11,7 +11,7 @@ public class BarcoDTO {
     private String nombre;
     private Long nAmarre;
     private double cuota;
-    private Long propietarioId;
+    private Long numSocio;
     private List<SalidaDTO> salida;
     
 	public String getMatricula() {
@@ -38,11 +38,11 @@ public class BarcoDTO {
 	public void setCuota(double cuota) {
 		this.cuota = cuota;
 	}
-	public Long getPropietarioId() {
-		return propietarioId;
+	public Long getNumSocio() {
+		return numSocio;
 	}
-	public void setPropietarioId(Long propietarioId) {
-		this.propietarioId = propietarioId;
+	public void setNumSocio(Long numSocio) {
+		this.numSocio = numSocio;
 	}
 	public List<SalidaDTO> getSalida() {
 		return salida;

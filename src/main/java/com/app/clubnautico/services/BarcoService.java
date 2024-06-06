@@ -47,7 +47,7 @@ public class BarcoService {
         //Se reconvierte a DTO para generar la respuesta del servidor
         return convertToDTO(savedBarco);*/
     	BarcoModel barco = modelMapper.map(barcoDTO, BarcoModel.class);
-        Optional<UserModel> propietarioOptional = userRepository.findById(barcoDTO.getPropietarioId());
+        Optional<UserModel> propietarioOptional = userRepository.findById(barcoDTO.getNumSocio());
         if (propietarioOptional.isPresent()) {
             barco.setUsuario(propietarioOptional.get());
         } else {
@@ -78,11 +78,11 @@ public class BarcoService {
     	 BarcoModel existingBarco = barcoRepository.findById(id)
                  .orElseThrow(() -> new RuntimeException("Barco not found with id " + id));
          
-         Optional<UserModel> propietarioOptional = userRepository.findById(barcoDTO.getPropietarioId());
-         if (propietarioOptional.isPresent()) {
-             existingBarco.setUsuario(propietarioOptional.get());
+         Optional<UserModel> numSocio = userRepository.findById(barcoDTO.getNumSocio());
+         if (numSocio.isPresent()) {
+             existingBarco.setUsuario(numSocio.get());
          } else {
-             throw new RuntimeException("Propietario no encontrado");
+             throw new RuntimeException("Socio no encontrado");
          }
 
          // Copiamos las propiedades que no son colecciones
@@ -90,6 +90,7 @@ public class BarcoService {
          existingBarco.setNombre(barcoDTO.getNombre());
          existingBarco.setnAmarre(barcoDTO.getnAmarre());
          existingBarco.setCuota(barcoDTO.getCuota());
+         existingBarco.setUsuario(numSocio.get());
 
          // Actualizamos la colección de salidas
          existingBarco.getSalida().clear();

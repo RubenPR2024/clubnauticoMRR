@@ -14,7 +14,7 @@ public class ApplicationConfig {
         ModelMapper modelMapper = new ModelMapper();
 
         modelMapper.createTypeMap(BarcoModel.class, BarcoDTO.class)
-                .addMapping(src -> src.getUsuario().getId(), BarcoDTO::setPropietarioId);
+        .addMapping(src -> ((Object) src.getUsuario()).getId(), BarcoDTO::setNumSocio);
 
         return modelMapper;
     }
