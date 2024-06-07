@@ -1,15 +1,13 @@
 package com.app.clubnautico.dto;
 
-import java.time.LocalDateTime;
-
 public class SalidaDTO {
 	//Clase utilizada para transferir los datos entre la capa de presentación y la capa de negocio
 	//Menores preocupaciones
 	//Simplificación de operaciones
 	
 	private String destino;
-    private LocalDateTime fechaEntrada;
-    private LocalDateTime fechaSalida;
+	private String fechaEntrada;
+	private String fechaSalida;
     private Long numPatron;
     
 	public String getDestino() {
@@ -18,16 +16,16 @@ public class SalidaDTO {
 	public void setDestino(String destino) {
 		this.destino = destino;
 	}
-	public LocalDateTime getFechaEntrada() {
+	public String getFechaEntrada() {
 		return fechaEntrada;
 	}
-	public void setFechaEntrada(LocalDateTime fechaEntrada) {
+	public void setFechaEntrada(String fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
-	public LocalDateTime getFechaSalida() {
+	public String getFechaSalida() {
 		return fechaSalida;
 	}
-	public void setFechaSalida(LocalDateTime fechaSalida) {
+	public void setFechaSalida(String fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
 	public Long getNumPatron() {

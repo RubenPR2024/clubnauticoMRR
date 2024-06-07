@@ -30,7 +30,8 @@ public class BarcoService {
     @Autowired
     private UserRepository userRepository;
     
-    private final ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private ModelMapper modelMapper;
 
     public List<BarcoDTO> getAllBarcos() {
     	//Con findAll obtiene la lista de BarcoModel.
@@ -40,12 +41,6 @@ public class BarcoService {
     }
 
     public BarcoDTO saveBarco(BarcoDTO barcoDTO) {
-    	/*//Convierte el DTO a model para interactuar con la base de datos
-        BarcoModel barco = convertToEntity(barcoDTO);
-        //Guarda el modelo en la base de datos
-        BarcoModel savedBarco = barcoRepository.save(barco);
-        //Se reconvierte a DTO para generar la respuesta del servidor
-        return convertToDTO(savedBarco);*/
     	BarcoModel barco = modelMapper.map(barcoDTO, BarcoModel.class);
         Optional<UserModel> propietarioOptional = userRepository.findById(barcoDTO.getNumSocio());
         if (propietarioOptional.isPresent()) {

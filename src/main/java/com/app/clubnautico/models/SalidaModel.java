@@ -1,7 +1,5 @@
 package com.app.clubnautico.models;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,9 +21,9 @@ public class SalidaModel {
 	@Column
 	private String destino;
 	@Column
-	private DateTimeAtCompleted fechaEntrada;
+	private String fechaEntrada;
 	@Column
-	private DateTimeAtCompleted fechaSalida;
+	private String fechaSalida;
 
 	
 	@ManyToOne
@@ -64,25 +62,25 @@ public class SalidaModel {
 
 
 
-	public DateTimeAtCompleted getFechaEntrada() {
+	public String getFechaEntrada() {
 		return fechaEntrada;
 	}
 
 
 
-	public void setFechaEntrada(DateTimeAtCompleted fechaEntrada) {
+	public void setFechaEntrada(String fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
 
 
 
-	public DateTimeAtCompleted getFechaSalida() {
+	public String getFechaSalida() {
 		return fechaSalida;
 	}
 
 
 
-	public void setFechaSalida(DateTimeAtCompleted fechaSalida) {
+	public void setFechaSalida(String fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
 

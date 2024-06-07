@@ -3,11 +3,11 @@ package com.app.clubnautico.dto;
 import java.util.List;
 
 public class UsuarioDTOconListas {
-	
+	private Long id;
     private String dni;
     private String nombre;
-    private String numSocio;
-    private String numPatron;
+    private Long numSocio;
+    private Long numPatron;
     private String apellido1;
     private String apellido2;
     private String telefono;
@@ -17,6 +17,12 @@ public class UsuarioDTOconListas {
     private List<SalidaDTO> salidas;
     
     
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getDni() {
 		return dni;
 	}
@@ -29,16 +35,17 @@ public class UsuarioDTOconListas {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getNumSocio() {
+
+	public Long getNumSocio() {
 		return numSocio;
 	}
-	public void setNumSocio(String numSocio) {
+	public void setNumSocio(Long numSocio) {
 		this.numSocio = numSocio;
 	}
-	public String getNumPatron() {
+	public Long getNumPatron() {
 		return numPatron;
 	}
-	public void setNumPatron(String numPatron) {
+	public void setNumPatron(Long numPatron) {
 		this.numPatron = numPatron;
 	}
 	public String getApellido1() {

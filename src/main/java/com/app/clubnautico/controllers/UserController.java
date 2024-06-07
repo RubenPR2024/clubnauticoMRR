@@ -22,15 +22,6 @@ import com.app.clubnautico.services.UserServices;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
-	/*APUNTES:
-	 * Optional<UsuarioDTO>
-Descripción: Optional<UsuarioDTO> es un contenedor que puede contener un objeto UsuarioDTO o estar vacío.
-Propósito: Se usa para devolver resultados de métodos en los que un UsuarioDTO podría no estar presente. Esto evita el retorno de null y proporciona una manera más segura de manejar la ausencia de valor.
-	 * Optional<UserModel>
-Descripción: Optional<UserModel> es un contenedor que puede contener un objeto UserModel o estar vacío.
-Propósito: Se usa para encapsular el resultado de consultas a la base de datos donde un UserModel podría no existir. Esto proporciona una manera más clara y segura de manejar la ausencia de resultados en lugar de devolver null.
-	 * */
 	
     @Autowired
     private UserServices userService; // Inyecta la instancia de UserServices que contiene la lógica de negocio relacionada con los usuarios
@@ -60,7 +51,7 @@ Propósito: Se usa para encapsular el resultado de consultas a la base de datos 
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<UsuarioDTO> updateUserById(@RequestBody UsuarioDTO userDTO, @PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> updateUserById(@RequestBody UsuarioDTO userDTO, @PathVariable("id") Long id) {
         Optional<UsuarioDTO> updateUserOptional = userService.UpdateUserById(userDTO, id);
         if(updateUserOptional.isPresent()) {
         	return ResponseEntity.ok(updateUserOptional.get());

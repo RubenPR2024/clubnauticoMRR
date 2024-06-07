@@ -3,12 +3,23 @@ package com.app.clubnautico.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.app.clubnautico.dto.SalidaDTO;
+import com.app.clubnautico.models.SalidaModel;
+import com.app.clubnautico.models.UserModel;
+import com.app.clubnautico.repositories.SalidaRepository;
+import com.app.clubnautico.repositories.UserRepository;
 import com.app.clubnautico.services.SalidaService;
 
 @RestController
@@ -18,16 +29,40 @@ public class SalidaController {
     @Autowired
     private SalidaService salidaService; //Inyecta la instancia de SalidaService que contiene la lógica de negocio relacionada con las salidas
 
+    @Autowired
+    private SalidaRepository salidaRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+    
     @GetMapping
     public List<SalidaDTO> getAllSalidas() { //Obtiene una lista de todas las salidas llamando al método correspondiente en la clase de servicio de salidas
         return salidaService.getAllSalidas();
     }
 
     @PostMapping
-    public ResponseEntity<SalidaDTO> saveSalida(@RequestBody SalidaDTO salidaDTO) {
-        //Recibe un DTO del cuerpo de la solicitud y lo pasa a la clase SalidaService para guardarlo en la base de datos y devuelve el DTO de la salida guardada con el código 201 (CREATED)
-        SalidaDTO savedSalida = salidaService.saveSalida(salidaDTO);
-        return new ResponseEntity<>(savedSalida, HttpStatus.CREATED);
+    public SalidaDTO saveSalida(@RequestBody SalidaDTO salidaDTO) {
+    	SalidaModel salida = modelMapper.map(salidaDTO, SalidaModel.class);
+
+        // Convertir las cadenas de fecha y hora a LocalDateTime
+        String fechaEntrada = salidaDTO.getFechaEntrada();
+        String fechaSalida = salidaDTO.getFechaSalida();
+
+        salida.setFechaEntrada(fechaEntrada);
+        salida.setFechaSalida(fechaSalida);
+
+        Optional<UserModel> numPatron = userRepository.findById(salidaDTO.getNumPatron());
+        if(numPatron.isPresent()) {
+            salida.setUsuario(numPatron.get());
+        } else {
+            throw new RuntimeException("Patrón no encontrado");
+        }
+        
+        SalidaModel savedSalida = salidaRepository.save(salida);
+        return modelMapper.map(savedSalida, SalidaDTO.class);
     }
 
     @GetMapping(path = "/{id}")

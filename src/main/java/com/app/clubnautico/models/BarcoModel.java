@@ -32,8 +32,8 @@ public class BarcoModel {
 	private double cuota;
 	
 	@ManyToOne
-	@JoinColumn(name = "numSocio")
-	private UserModel numSocio;
+	@JoinColumn(name = "usuario_id")
+	private UserModel usuario;
 
 
 	// Relación n:1 con tabla salida
@@ -90,13 +90,13 @@ public class BarcoModel {
 		this.cuota = cuota;
 	}
 	
-	public UserModel getNumSocio() {
-		return numSocio;
+	public UserModel getUsuario() {
+		return usuario;
 	}
 
 
-	public void setNumSocio(UserModel numSocio) {
-		this.numSocio = numSocio;
+	public void setUsuario(UserModel usuario) {
+		this.usuario = usuario;
 	}
 
 
@@ -107,18 +107,6 @@ public class BarcoModel {
 
 	public void setSalida(List<SalidaModel> salida) {
 		this.salida = salida;
-	}
-
-
-	public void setUsuario(UserModel numSocio) {
-		this.numSocio = numSocio;
-		
-	}
-
-
-	public Object getUsuario() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	

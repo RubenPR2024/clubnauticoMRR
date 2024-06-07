@@ -24,7 +24,9 @@ public class SalidaService {
     @Autowired
     private UserRepository userRepository;
     
-    private final ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private ModelMapper modelMapper;
+    
     public List<SalidaDTO> getAllSalidas() {
         // Obtiene una lista de todas las salidas almacenadas en la base de datos
         List<SalidaModel> salidas = salidaRepository.findAll();
@@ -32,15 +34,23 @@ public class SalidaService {
         return salidas.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public SalidaDTO saveSalida(SalidaDTO salidaDTO) {//Asociar patron**Pendiente
+    public SalidaDTO saveSalida(SalidaDTO salidaDTO) {
     	SalidaModel salida = modelMapper.map(salidaDTO, SalidaModel.class);
+    	
+    	String fechaEntrada = salidaDTO.getFechaEntrada();
+        String fechaSalida = salidaDTO.getFechaSalida();
+
+        salida.setFechaEntrada(fechaEntrada);
+        salida.setFechaSalida(fechaSalida);
+    	
+    	SalidaModel salidas = modelMapper.map(salidaDTO, SalidaModel.class);
     	Optional<UserModel> numPatron = userRepository.findById(salidaDTO.getNumPatron());
     	if(numPatron.isPresent()) {
-    		salida.setUsuario(numPatron.get());
+    		salidas.setUsuario(numPatron.get());
     	} else {
     		throw new RuntimeException("Patrón no encontrado");
     	}
-    	SalidaModel savedSalida = salidaRepository.save(salida);
+    	SalidaModel savedSalida = salidaRepository.save(salidas);
     	return modelMapper.map(savedSalida, SalidaDTO.class);
     }
 
