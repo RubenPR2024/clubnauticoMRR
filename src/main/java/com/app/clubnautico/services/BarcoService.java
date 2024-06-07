@@ -61,15 +61,6 @@ public class BarcoService {
     }
 
     public BarcoDTO updateBarco(BarcoDTO barcoDTO, Integer id) {
-//    	//Busca el barco por ID, si no lo encuentra, se lanza una excepcion
-//        BarcoModel existingBarco = barcoRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException("Barco not found with id " + id));
-//        //Copiamos las propiedades del DTO al modelo
-//        BeanUtils.copyProperties(barcoDTO, existingBarco);
-//        //Guardamos el modelo actualizado en la base de datos
-//        BarcoModel updatedBarco = barcoRepository.save(existingBarco);
-//        //Convertimos la respuesta a DTO.
-//        return convertToDTO(updatedBarco);
     	 BarcoModel existingBarco = barcoRepository.findById(id)
                  .orElseThrow(() -> new RuntimeException("Barco not found with id " + id));
          
@@ -103,7 +94,6 @@ public class BarcoService {
         barcoRepository.deleteById(id);
     }
 
-    //CON MODEL MAPPER ESTOS MÉTODOS NO HARÍAN FALTA
     private BarcoDTO convertToDTO(BarcoModel barco) {
     	//Creamos una instancia de BarcoDTO
         BarcoDTO barcoDTO = new BarcoDTO();

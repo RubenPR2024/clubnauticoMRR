@@ -47,7 +47,6 @@ public class SalidaController {
     public SalidaDTO saveSalida(@RequestBody SalidaDTO salidaDTO) {
     	SalidaModel salida = modelMapper.map(salidaDTO, SalidaModel.class);
 
-        // Convertir las cadenas de fecha y hora a LocalDateTime
         String fechaEntrada = salidaDTO.getFechaEntrada();
         String fechaSalida = salidaDTO.getFechaSalida();
 

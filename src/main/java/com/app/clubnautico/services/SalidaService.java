@@ -78,7 +78,7 @@ public class SalidaService {
         salidaRepository.deleteById(id);
     }
 
-    // Métodos auxiliares para la conversión entre SalidaDTO y SalidaModel
+    // Métodos auxiliares para la conversión entre SalidaDTO
     private SalidaDTO convertToDTO(SalidaModel salida) {
         // Crea una instancia de SalidaDTO y copia las propiedades del modelo de salida
         SalidaDTO salidaDTO = new SalidaDTO();

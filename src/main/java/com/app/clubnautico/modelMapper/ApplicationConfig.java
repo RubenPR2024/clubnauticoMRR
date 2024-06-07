@@ -17,15 +17,12 @@ public class ApplicationConfig {
     public ModelMapper modelMapper() {
 	       ModelMapper modelMapper = new ModelMapper();
 
-	        // Mapping for BarcoDTO
 	       	modelMapper.createTypeMap(BarcoModel.class, BarcoDTO.class)
            		.addMapping(src -> src.getUsuario().getId(), BarcoDTO::setNumSocio);
 
-	        // Mapping for SalidaDTO
 	        modelMapper.createTypeMap(SalidaModel.class, SalidaDTO.class)
 	            .addMapping(src -> src.getUsuario().getId(), SalidaDTO::setNumPatron);
 
-	        // Mapping for UsuarioDTOconListas
 	        modelMapper.createTypeMap(UserModel.class, UsuarioDTOconListas.class)
             .addMapping(UserModel::getBarco, UsuarioDTOconListas::setBarcos)
             .addMapping(UserModel::getSalida, UsuarioDTOconListas::setSalidas);

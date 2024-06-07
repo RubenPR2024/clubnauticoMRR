@@ -62,7 +62,7 @@ public class UserController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> deleteById(@PathVariable("id") Long id) {
-        // Recibe el ID del usuario como parámetroy lo pasa a la capa de servicios para eliminar el usuario
+        // Recibe el ID del usuario como parámetro y lo pasa a la capa de servicios para eliminar el usuario
         boolean ok = userService.deleteUser(id);
         // Devuelve un mensaje indicando si se eliminó correctamente o si ocurrió un error
         if (ok) {
